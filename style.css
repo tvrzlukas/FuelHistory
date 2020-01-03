@@ -1,0 +1,299 @@
+body{
+    background-color: rgb(241, 240, 240);
+    font-family: 'Montserrat';
+    margin: 0;
+}
+
+.photo, .auto{
+    width: 100%;
+    height: auto;
+    border: none;
+    border-radius: 10px;
+    padding-top: 2em;
+}
+
+/* Navigace */
+.headerlogo{
+    text-align: center;
+    font-family: "Great Vibes";
+    font-weight: bold;
+    background-color: #4CAF50;
+    color:white;
+    padding: 14px 16px;
+    font-size: 1.25em;
+    padding-right: 50px;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    overflow: hidden;
+}
+
+li{
+    float: left;
+}
+
+li a{
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 17px 19px;
+    text-decoration: none;
+}
+
+
+
+li a.login{
+    background-color: #4CAF50;
+}
+
+li a.logout{
+    background-color: rgb(141, 5, 5);
+    color: white;
+}
+
+li a.app{
+    background-color: #111;
+    color:white;    
+}
+
+li a:hover{
+    background-color: #111;
+    color:white;    
+}
+
+
+
+/* Content */
+
+.container{
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 2em;
+}
+
+.container p{
+    padding: 0.5em 1em 1em;
+    line-height: 1.8;
+    text-align: justify;
+}
+.container h1,h2{
+    padding: 1em 0.5em 0;
+}
+
+.container h1::first-letter{
+    font-size: 2em;
+    color: #4CAF50;
+}
+
+.pricing{
+    width: 100%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.flex-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.flex-container div{
+    background-color: white;
+    color: black;
+    width: 280px;
+    min-width: 280px;
+    height: 350px;
+    margin: 10px;
+    text-align: center;
+    padding: 1em;
+    border-radius: 10px;
+    border: none;
+}
+
+.container-evidence{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.container-evidence div{
+    color: black;
+    width: 310px;
+    min-width: 280px;
+    height: auto;
+    margin: 10px;
+    text-align: center;
+}
+.popisek{
+    padding-bottom: 1em;
+}
+
+.container-evidence img{
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: none;
+}
+input{
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    font-size: normal;
+    border-radius: 4px;
+    border: none;
+}
+
+textarea{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: none;
+    max-width: 100%;
+    min-width: 100%;
+
+}
+
+.contactform > input{
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+#vyzkouset{
+    background-color: gray;
+}
+
+#vyzkouset:hover{
+    background-color: rgb(49, 49, 49);
+}
+
+input[type=submit]{
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 150px;
+    height: 50px;
+}
+
+input[type=submit]:hover{
+    background-color: rgb(36, 83, 37);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 150px;
+    height: 50px;
+}
+
+
+.footer{
+    width: 100%;
+    background-color: #4CAF50;;
+    height: 300px;
+}
+
+.footer > div{
+    padding: 0.3em;
+}
+
+.footer > div > p{
+    padding-left: 1.1em;
+}
+
+.footer p{
+    color: white;
+    font-family: "Great Vibes";
+    font-weight: bold;
+    font-size: 3em;
+}
+
+.footer a, .footer a:visited{
+    color: white;
+}
+
+.footer span{
+    font-family: 'Montserrat';
+    font-size: 0.8em;
+    color: white;
+    padding:3em;
+}
+
+.pricing p{
+    text-align: center;
+    padding-top: 0.5em;
+}
+
+.pricing h3{
+    padding-bottom: 1em;
+}
+
+.pokus{
+    width: 100%;
+    height: 100%;
+}
+
+.cena{
+    font-size: 4em;
+    text-align: center;
+    font-family: 'Montserrat';
+}
+.mesic{
+    font-size: 1em;
+    text-align: center;
+    font-family: 'Montserrat';
+}
+
+.short{
+    display: none;
+}
+  
+
+/* Small screen
+    */
+
+@media screen and (max-width: 800px) 
+{
+    .container{
+        width: 95%;
+        padding-left: 2.5%;
+        padding-right: 2.5%;
+    }
+
+    .contact{
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+
+    h1, h2{
+        padding-left: 0.5em;
+    }
+    
+    .hide{
+        display: none;
+    }
+
+
+}
+
+@media screen and (max-width: 600px) 
+{
+    .headerlogo{
+        display: inline-block;
+        width: 100%;
+    }
+
+}
+

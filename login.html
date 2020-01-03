@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Fuel History</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="style_login.css">
+        <link href='https://fonts.googleapis.com/css?family=Great Vibes' rel='stylesheet'>  
+        <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+        <!-- Google Fonts -->
+
+        <script>
+        
+        function changeStyle(){
+            var registrace = document.getElementById("registrace");
+            var login = document.getElementById("login");
+            login.style.display = "none";
+            registrace.style.display = "block";
+        }
+
+        </script>
+
+    </head>
+
+    <body>
+        
+        <!-- Navigace -->
+        <nav>
+            <ul class="navbar">
+                <li class="headerlogo">Fuel History</li>
+                <li><a href="index.html">O aplikaci</a></li>
+                <li class="hide"><a href="index.html#2">Cena</a></li>
+                <li class="hide"><a href="index.html#3">Kontakt</a></li>  
+                <li style="float: right;"><a href="login.html" class="login">Přihlásit</a></li>
+            </ul>
+        </nav>
+
+        <!-- Content -->
+
+        <div class="container" id="login">
+           
+            <h2>Přihlásit</h1>  
+            
+                <section>
+                    <form action="app.html">
+                        <input type="email" id="login" name="login" placeholder="Vaše e-mailová adresa" >
+                        <input type="password" id="password" name="password" placeholder="Heslo">
+                        <input type="submit" value="Přihlásit">
+                    </form>
+                    <p onclick="changeStyle()">Nemáte stále svůj účet?</p>
+                </section>
+
+        </div>
+
+        <div class="container" id="registrace">
+           
+            <h2>Registrace</h1>  
+            
+                <section>
+                    <form>
+                        <input type="text" id="jmeno" name="jmeno" placeholder="Jméno" >
+                        <input type="text" id="prijmeni" name="prijmeni" placeholder="Přijmení" >
+                        <input type="email" id="login" name="login" placeholder="Vaše e-mailová adresa" >
+                        <input type="password" id="password" name="password" placeholder="Heslo">
+                        <input type="password" id="password_kon" name="password_kont" placeholder="Kontrola hesla">
+                        <input type="submit" value="Registrovat">
+                    </form>
+                </section>
+
+        </div>
+
+    </body>
+</html>

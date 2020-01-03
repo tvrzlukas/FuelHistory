@@ -1,0 +1,77 @@
+body{
+    background-image: url(assets/wall.jpg);
+    background-position: center;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+}
+
+.container{
+    background-color: rgba(43, 42, 42, 0.8);
+    color: white;
+    width: 50%;
+    margin-top: 3em;
+    margin-bottom: 3em;
+    
+}
+
+h2{
+    font-size: xx-large;
+    text-align: center;
+}
+
+.container > section{
+    width:50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.container > section > p{
+    text-align: center;
+    font-size: small;
+}
+.container > section > p:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.container > section > form > input[type=submit]{
+    width: 100%;
+}  
+
+#registrace{
+    display: none;
+}
+
+label{
+    font-size: small
+}
+
+#remember-me{
+    display: block;
+}
+
+.container > section > form > input{
+    width: 100%;
+    text-align: center;
+    font-size: 1em;
+}
+
+
+@media screen and (max-width: 1000px) 
+{
+    .container{
+        width: 60%;
+    }
+}
+
+@media screen and (max-width: 650px) 
+{
+    .container{
+        width: 80%;
+    }
+
+    .box > div {
+        width: 60%;
+    }
+}

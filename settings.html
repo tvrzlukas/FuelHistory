@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Fuel History</title>
+        <link rel="stylesheet" href="appstyle.css">
+        <link rel="stylesheet" href="style.css">
+        <link href='https://fonts.googleapis.com/css?family=Great Vibes' rel='stylesheet'>  
+        <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="./lib/stackonly/tablesaw.stackonly.css"> <!-- Table stylesheet -->
+        <script src="./lib/stackonly/tablesaw.stackonly.js"></script>
+        <script src="./lib/stackonly/tablesaw-init.js"></script>
+        <script src="script.js"></script>
+        <!-- Google Fonts -->
+
+    </head>
+
+    <body>
+              
+        <!-- Navigace -->
+        <nav>
+            <ul class="navbar">
+                <li class="headerlogo">Fuel History</li>
+                <li><a href="index.html">O aplikaci</a></li>
+                <li class="hide"><a href="index.html#2">Cena</a></li>
+                <li class="hide"><a href="index.html#3">Kontakt</a></li>  
+                <li style="float: right;"><a href="index.html" class="logout">Odhlásit</a></li>
+                <li style="float: right;"><a href="app.html" class="app">Aplikace</a></li>
+            </ul>
+        </nav>
+
+        <!-- Content -->
+
+       <div class="container">
+            <h2 style="text-align: center;">Nastavení</h2>
+            <div>
+                <section class="settings">
+
+                    <h3>Základní údaje</h3>
+                    <form action="">
+
+                        <label for="jmeno">Jméno</label><br>
+                        <input type="text" placeholder="name" ><br> 
+                        <label for="prijmeni">Přijmení</label><br>
+                        <input type="text" placeholder="surname" > <br>
+                        <label for="email">E-mailová adresa</label>  <br>     
+                        <input type="text" placeholder="test@test.com" 
+                        readonly style="background-color: lightgray;"> <br>
+                        <input type="submit" value="Změnit">                        
+
+                    </form>
+
+                </section>
+
+                <section class="settings">
+
+                    <h3>Údaje o vozidle</h3>
+
+                    <form action="">
+
+                        <label for="jmeno">Značka</label><br>
+                        <input type="text" placeholder="Ford" ><br> 
+                        <label for="jmeno">Model vozidla</label><br>
+                        <input type="text" placeholder="Focus" ><br> 
+                        <label for="jmeno">SPZ</label><br>
+                        <input type="text" placeholder="5AP 1099" ><br> 
+                        <label for="jmeno">Motorizace</label><br>
+                        <input type="text" placeholder="1.0 Ecoboost" ><br> 
+                        <label for="jmeno">Rok výroby</label><br>
+                        <input type="text" placeholder="2015" ><br>
+                        <label for="jmeno">Palivo</label><br>
+                        <input type="text" placeholder="Natural 95" ><br> 
+                        <label for="jmeno">Foto vozidla</label><br>
+                        <input type="text" placeholder="/assets/focus.png" ><br>   
+                        <input type="submit" id="change" value="Změnit">  
+                        <input type="submit" id="delete" value="Smazat" style="background-color: red;">                     
+
+                    </form>
+              
+                </section>
+            </div>
+       </div>
+
+    </body>
+</html>
