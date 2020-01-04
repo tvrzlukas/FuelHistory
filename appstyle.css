@@ -126,13 +126,11 @@ SHEET
 }
 
 .tabcontent button{
-    
     font-size: 0.9em;
     margin-bottom: 1em;
     padding: 1em;
     border: 0;
     min-height: 50px;
-
 }
 
 .pridat{
@@ -395,12 +393,10 @@ SHEET
 
 /* Change background color of buttons on hover */
 .tab button:hover {
-    opacity: 1;
     background-color: rgb(3, 105, 7);
 }
 
-/* Create an active/current tablink class */
-.tab button.active {
+.tab button.active{
     background-color: rgb(3, 105, 7);
 }
 
