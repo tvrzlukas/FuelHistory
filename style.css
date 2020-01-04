@@ -297,3 +297,14 @@ input[type=submit]:hover{
 
 }
 
+/* IE */
+
+_:-ms-fullscreen, :root .ie11up {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+@supports (-ms-ime-align:auto){
+    body{
+        font-family: Arial, Helvetica, sans-serif;
+    }
+}
