@@ -1,3 +1,18 @@
+@supports (-ms-ime-align:auto)
+and (-webkit-text-stroke:initial) {
+    *,body{
+        font-family: Arial, Helvetica, sans-serif;
+    }
+}
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    /* IE10+ CSS styles go here */
+    *,body{
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    }
+
+
 body{
     background-color: rgb(241, 240, 240);
     font-family: 'Montserrat';
@@ -298,13 +313,3 @@ input[type=submit]:hover{
 }
 
 /* IE */
-
-_:-ms-fullscreen, :root .ie11up {
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-@supports (-ms-ime-align:auto){
-    body{
-        font-family: Arial, Helvetica, sans-serif;
-    }
-}
