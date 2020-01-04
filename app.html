@@ -75,9 +75,9 @@
 
                     <!-- Tab links -->
                     <div class="tab">
-                        <button class="tablinks" onclick="openTab('gas')">Tankování</button>
-                        <button class="tablinks" onclick="openTab('statistics')">Statistiky</button>
-                        <button class="tablinks" onclick="openTab('vehicles')">Vozidla</button>
+                        <button class="tablinks" onclick="openTab(event, 'gas')">Tankování</button>
+                        <button class="tablinks" onclick="openTab(event, 'statistics')">Statistiky</button>
+                        <button class="tablinks" onclick="openTab(event, 'vehicles')">Vozidla</button>
                     </div>
                 
                     <!-- Tab content -->
@@ -86,7 +86,6 @@
                             <button id="pridat" class="pridat" onclick="insertNew()">Přidat záznam</button>
                             <button id="smazat" class="smazat" onclick="deleterow()">Smazat záznam</button>
                             <button id="x" class="x" onclick="zavrit()">X</button>
-
                         </div>
 
                         <div class="insertrow" id="insert-row">
