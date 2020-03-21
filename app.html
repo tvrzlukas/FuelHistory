@@ -4,9 +4,13 @@
         <title>Fuel History</title>
         <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="appstyle.css">
-        <link href='https://fonts.googleapis.com/css?family=Great Vibes' rel='stylesheet'>  
+        <link href="https://fonts.googleapis.com/css?family=Great%20Vibes" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="./lib/stackonly/tablesaw.stackonly.css"> <!-- Table stylesheet -->
+
+        <link rel="stylesheet" href="lib/html5-simple-date-input-polyfill/html5-simple-date-input-polyfill.css" /><!--        Date input-->
+        <script src="./ib/html5-simple-date-input-polyfill/html5-simple-date-input-polyfill.min.js"></script>
+
         <script src="./lib/stackonly/tablesaw.stackonly.js"></script>
         <script src="./lib/stackonly/tablesaw-init.js"></script>
         <script src="script.js"></script>
@@ -14,7 +18,7 @@
         <meta charset="UTF-8">
         <meta name="description" content="Aplikace pro evidování tankování">
         <meta name="keywords" content="tankování,aplikace,vozidlo,benzín,nafta,evidence,e-evidence">
-
+        <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
 
     <body>
@@ -75,9 +79,9 @@
 
                     <!-- Tab links -->
                     <div class="tab">
-                        <button class="tablinks" onclick="openTab(event, 'gas')">Tankování</button>
-                        <button class="tablinks" onclick="openTab(event, 'statistics')">Statistiky</button>
-                        <button class="tablinks" onclick="openTab(event, 'vehicles')">Vozidla</button>
+                        <button id="gasTab" class="tablinks" onclick="openTab('gasTab', 'gas')">Tankování</button>
+                        <button id="statisticsTab" class="tablinks" onclick="openTab('statisticsTab', 'statistics')">Statistiky</button>
+                        <button id="vehiclesTab" class="tablinks" onclick="openTab('vehiclesTab', 'vehicles')">Vozidlo</button>
                     </div>
                 
                     <!-- Tab content -->
@@ -90,8 +94,8 @@
 
                         <div class="insertrow" id="insert-row">
                             <h3>Nový záznam</h3>
-                            <form action=""> 
-                                <input type="date" placeholder="Datum tankování" >
+                            <form action="#">
+                                <input type="date" title="Datum tankování" data-polyfill="all" >
                                 <input type="text" placeholder="Množství tankovaného paliva" >
                                 <input type="text" placeholder="Celková cena za tankování">
                                 <input type="text" placeholder="Stav km">
@@ -102,9 +106,10 @@
 
                         <div class="deleterow" id="delete-row">
                             <h3 style="text-align: center;">Smazat záznam</h3>
-                            <form action="" style="color: black;"> 
+                            <form action="#" style="color: black;">
                                 <input type="text" placeholder="Zvolte datum tankování které se má smazat" >
                                 <input type="submit" style="background-color: red; border: none;" value="Smazat">
+                            </form>
                         </div>
                         
                         <table class="tablesaw tablesaw-stack" data-tablesaw-mode="stack">
@@ -217,7 +222,7 @@
 
                         </table>
 
-                        <img src="assets/big.jpg" class="photo" >
+                        <img src="assets/big.jpg" class="photo" alt="background">
 
                     </div>
                 
@@ -276,7 +281,7 @@
         </div>
 
         <section class="footer">
-            
+            <h2 class="heading">Fuel History</h2>
             <div>
                 <p>Fuel History</p>
                 <span class="bold">&copy; 2020</span><br>
@@ -288,6 +293,7 @@
 
         <script>
             currentSlide(1);
+            openTab('gasTab', 'gas');
         </script>
 
     </body>

@@ -3,13 +3,14 @@
     <head>
         <title>Fuel History</title>
         <link rel="stylesheet" href="style.css">
-        <link href='https://fonts.googleapis.com/css?family=Great Vibes' rel='stylesheet'>  
-        <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
         <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Great%20Vibes" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+
         <meta charset="UTF-8">
         <meta name="description" content="Aplikace pro evidování tankování">
         <meta name="keywords" content="tankování,aplikace,vozidlo,benzín,nafta,evidence,e-evidence">
-
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
     </head>
 
@@ -31,7 +32,7 @@
         <div class="container">
             
             <section class="about" id="1">
-                
+                <h2 class="heading">Fuel History</h2>
                 
                 <p>
                     Fuel History je aplikace pro sledování ujetých kilometrů, spotřeby paliva, nákladů při tankování a informací o vozidle.
@@ -90,23 +91,23 @@
             <section class="contact" id="3">
                 
                 <h2>Kontakt</h2>
-                
+
                 <form class="contactform" name="f" onsubmit="return kontrola_formulare();">
                     <label for="email">Email</label>
                     <input type="email" id="email" name="email" placeholder="E-mail" >
-                    <label for="email">Předmět</label>
+                    <label for="subject">Předmět</label>
                     <input type="text" id="subject" name="subject" placeholder="Předmět" >
-                    <label for="subject">Zpráva</label>
+                    <label for="mess">Zpráva</label>
                     <textarea id="mess" name="mess" placeholder="Vaše zpráva" style="height: 200px;" ></textarea>
-                    <input type="submit" value="Odeslat" >  
-                </form>     
+                    <input id="odeslat" type="submit" value="Odeslat" >
+                </form>
             
             </section>
 
 
         </div>
         <section class="footer">
-            
+            <h2 class="heading">Fuel History</h2>
             <div>
                 <p>Fuel History</p>
                 <span class="bold">&copy; 2020</span><br>

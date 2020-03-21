@@ -32,20 +32,7 @@ function showSlides(n) {
 }
 
 // Funkce na přechod mezi jednotlivými Taby
-
-/*function openTab(evt, tabName){
-    var i;
-    var x = document.getElementsByClassName("tabcontent");
-
-    for(i=0;i < x.length; i++){
-        x[i].style.display = "none";
-    }
-    document.getElementById(tabName).style.display = "block";
-    evt.currentTarget.className += " active";
-}
-*/
-
-function openTab(evt, cityName) {
+function openTab(selectedTabId, tabContentId) {
     // Declare all variables
     var i, tabcontent, tablinks;
 
@@ -62,8 +49,8 @@ function openTab(evt, cityName) {
     }
 
     // Show the current tab, and add an "active" class to the button that opened the tab
-    document.getElementById(cityName).style.display = "block";
-    evt.currentTarget.className += " active";
+    document.getElementById(tabContentId).style.display = "block";
+    document.getElementById(selectedTabId).className += " active";
 }
 
 
