@@ -156,6 +156,35 @@ SHEET
     border-radius: 100%;
 }
 
+@media (min-width: 40em) {
+    .tablesaw-stack td, .tablesaw-stack th, .tablesaw-stack thead td, .tablesaw-stack thead th {
+        display: table-cell;
+        text-align: center;
+        margin: 0;
+    }
+
+    .tablesaw-stack td span, .tablesaw-stack th {
+        text-align: center;
+        display: block;
+    }
+}
+
+
+
+.deleteRowBtn {
+    background-color: red;
+    color: white;
+    text-align: center;
+    padding: 2px 4px 2px;
+    margin: 2px 4px 2px;
+    cursor: pointer;
+    opacity: 0.9;
+}
+.deleteRowBtn:hover {
+    cursor: pointer;
+    opacity: 1;
+}
+
 .smazat:hover{
     background-color: darkred;
     color: white;
@@ -176,7 +205,7 @@ SHEET
 
 @media screen and (min-width: 640px) {
     div .tabcontent{
-        background-color: white;
+        background-color: rgb(241, 240, 240);
         padding: 1em;
         border-radius: 0.5em;
         min-height: 500px;
