@@ -1,0 +1,435 @@
+/* SETTINGS PAGE
+*/
+.settings{
+    background-color:rgba(43, 42, 42, 0.8) ;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2em;
+    min-height: 300px;
+    padding: 1em;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+}
+
+.settings > form > input{
+    width: 50%;
+    text-align: center;
+    font-size: 1em;
+}
+
+.settings > form > input:hover{
+    width: 50%;
+}
+
+/*
+****
+*****
+APP
+STYLE
+SHEET
+*****
+****
+*/
+
+.insertrow{
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top:1em;
+    padding-bottom: 3em;
+    display: none;
+    text-align: center;
+
+}
+.insertrow > form > input{
+    width: 100%;
+    text-align: center;
+    font-size: 1em;
+    border: gray thin solid;
+}
+
+.insertrow > form > input:hover{
+    width: 100%;
+}
+
+.deleterow{
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top:1em;
+    padding-bottom: 3em;
+    display: none;
+}
+
+.deleterow > form > input{
+    width: 100%;
+    text-align: center;
+    font-size: 1em;
+    border: gray thin solid;
+}
+
+.deleterow > form > input:hover{
+    width: 100%;
+}
+
+.insertrow > h3 , .deleterow > h3{
+    font-weight: bolder;
+}
+
+.tabcontent{
+    padding: 1em;
+    margin: 1em;
+}
+
+
+.tabcontent > h2{
+    padding: 0;
+    margin: 0.5em;
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+}
+
+.stat_table{
+    width: 75%;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.stat_table tr,th,td{
+    border-top: thin lightgray solid;
+    border-bottom: thin lightgray solid;
+}
+
+.stat_table tr:last-child{
+    border-bottom: none;
+}
+
+.container{
+    min-height: 450px;
+}
+ 
+.logout{
+    cursor: pointer;
+}
+
+.user{
+    background-color: white;
+    padding: 0.5em;
+    border-radius: 1em;
+}
+
+.tabcontent button{
+    font-size: 0.9em;
+    margin-bottom: 1em;
+    padding: 1em;
+    border: 0;
+}
+
+.pridat{
+    background-color: #4CAF50;
+    color: white;
+    min-width: 150px;
+    min-height: 50px;
+}
+
+.smazat{
+    background-color: red;
+    color: white;
+    float: right;
+    min-width: 150px;
+    min-height: 50px;
+}
+
+.x{
+    background-color: red;
+    color: white;
+    float: right;
+    width: 3em;
+    font-weight: bold;
+    display: none;
+    border-radius: 100%;
+}
+
+@media (min-width: 40em) {
+    .tablesaw-stack td, .tablesaw-stack th, .tablesaw-stack thead td, .tablesaw-stack thead th {
+        display: table-cell;
+        text-align: center;
+        margin: 0;
+    }
+
+    .tablesaw-stack td span, .tablesaw-stack th {
+        text-align: center;
+        display: block;
+    }
+}
+
+
+
+.deleteRowBtn {
+    background-color: red;
+    color: white;
+    text-align: center;
+    padding: 2px 4px 2px;
+    margin: 2px 4px 2px;
+    cursor: pointer;
+    opacity: 0.9;
+}
+.deleteRowBtn:hover {
+    cursor: pointer;
+    opacity: 1;
+}
+
+.smazat:hover{
+    background-color: darkred;
+    color: white;
+}
+
+.x:hover{
+    background-color: darkred;
+    color: white;
+}
+
+
+.pridat:hover{
+    background-color:  rgb(3, 105, 7);
+    color:white;
+    cursor: pointer;
+}
+  
+
+@media screen and (min-width: 640px) {
+    div .tabcontent{
+        background-color: rgb(241, 240, 240);
+        padding: 1em;
+        border-radius: 0.5em;
+        min-height: 500px;
+    }
+    
+    div .tabcontent tr{
+        height: 2em ;
+    }
+
+    .tabcontent tbody tr:nth-child(odd) td
+        {
+            background-color: grey;
+            color: white;
+        }
+
+    .insertrow{
+    width: 55%;
+    }
+
+}
+
+@media screen and (max-width: 640px) {
+    div .tabcontent{
+        background-color: white;
+    }
+    .tabcontent tbody tr:nth-child(odd) td
+        {
+            background-color: grey;
+            color: white;
+        }
+
+    .buttonDiv{
+        margin-left:auto;
+        margin-right: auto;
+        width: 100%;
+    }
+
+    .pridat{
+        width: 49%;
+        padding-left: 0;
+    }
+
+    .smazat{
+        width: 49%;
+        padding-right: 0;
+    }
+
+    .stat_table{
+        border-collapse: collapse;
+        width: 95%;
+        padding-left: 2.5%;
+        padding-right: 2.5%;
+    }
+    
+    .settings > form > input{
+        width: 100%;
+    }
+
+    .settings > form > input:hover{
+        width: 100%;
+    }
+
+    .insertrow > h3{
+        text-align: center;
+    }
+}
+
+.slider {
+    grid-area: slider;
+}
+
+/* Slideshow container */
+.slideshow-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+/* Hide the images by default */
+.mySlides {
+    display: none;
+    text-align: center;
+    width: 300px;
+}
+
+.mySlides img {
+    height: 110px;
+    width: 200px;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+    cursor: pointer;
+    width: auto;
+    height: 75px;
+    margin-top: 40px;
+    padding: 5px;
+    color: #4CAF50;
+    font-weight: bold;
+    font-size: 50px;
+    -webkit-transition: 0.6s ease;
+    -o-transition: 0.6s ease;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+    color:  rgb(3, 105, 7);
+}
+
+/* Caption text */
+.text {
+    font-size: 15px;
+    font-weight: bold;
+    padding: 8px 12px;
+    bottom: 8px;
+    width: 100%;
+    text-align: center;
+}
+
+/* The dots/bullets/indicators */
+.dot-container {
+    margin: 10px;
+    text-align: center;
+}
+
+
+.dot {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #4CAF50;
+    opacity: 0.2;
+    border-radius: 50%;
+    display: inline-block;
+    -webkit-transition: background-color 0.6s ease;
+    -o-transition: background-color 0.6s ease;
+    transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+    opacity: 1;
+}
+
+.tab-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 100%;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+
+}
+
+/* Style the tab */
+.tab {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    width: 100%;
+    max-width: 900px;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-line-pack: center;
+    align-content: center;
+    overflow: hidden;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+    background-color: #4CAF50;
+    font-size: 1em;
+    width: 100%;
+    color: #ffffff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    -webkit-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+    background-color: rgb(3, 105, 7);
+}
+
+.tab button.active{
+    background-color: rgb(3, 105, 7);
+}
+
+/* Style the tab content */
+.tabcontent {
+    width: 100%;
+    max-width: 900px;
+    margin: 10px;
+}

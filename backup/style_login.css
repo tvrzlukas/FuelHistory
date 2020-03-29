@@ -12,33 +12,7 @@ body{
     width: 50%;
     margin-top: 3em;
     margin-bottom: 3em;
-}
-
-.odkaz:visited{
-    color: white;
-}
-.odkaz:active{
-    color: white;
-}
-
-.error{
-    color: red;
-    background-color: rgb(248, 198, 198);
-    border-radius: 5px;
-    text-align: center;
-    margin-left:auto;
-    margin-right: auto;
-    width: 75%;
-}
-
-.success{
-    color: green;
-    background-color: rgb(185, 235, 170);
-    border-radius: 5px;
-    text-align: center;
-    margin-left:auto;
-    margin-right: auto;
-    width: 75%;
+    
 }
 
 h2{

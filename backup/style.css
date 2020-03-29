@@ -79,18 +79,8 @@ li a.logout{
     color: white;
 }
 
-li a.logout:hover{
-    background-color: rgb(211, 3, 3);
-    color: white;
-}
-
 li a.app{
     background-color: #111;
-    color:white;    
-}
-
-li a.app:hover{
-    background-color: rgb(99, 99, 99);
     color:white;    
 }
 
@@ -98,6 +88,7 @@ li a:hover{
     background-color: #111;
     color:white;    
 }
+
 
 
 /* Content */
@@ -136,7 +127,7 @@ li a:hover{
 }
 
 .flex-container div{
-    background-color: rgb(241, 241, 241) ;
+    background-color: white;
     color: black;
     width: 280px;
     min-width: 280px;
@@ -178,8 +169,6 @@ input{
     box-sizing: border-box;
     border-radius: 4px;
     border: none;
-    background-color: rgb(241, 241, 241) ;
-
 }
 
 textarea{
@@ -191,8 +180,6 @@ textarea{
     border: none;
     max-width: 100%;
     min-width: 100%;
-    background-color: rgb(241, 241, 241) ;
-
 
 }
 
