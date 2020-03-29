@@ -14,7 +14,7 @@ and (-webkit-text-stroke:initial) {
 
 
 body{
-    background-color: rgb(241, 240, 240);
+    /*background-color: rgb(241, 240, 240);*/
     font-family: 'Montserrat';
     margin: 0;
 }
@@ -25,6 +25,11 @@ body{
     border: none;
     border-radius: 10px;
     padding-top: 2em;
+}
+
+.heading {
+    font-family: "Great Vibes";
+    display: none;
 }
 
 /* Navigace */
@@ -162,7 +167,6 @@ input{
     padding: 12px 20px;
     margin: 8px 0;
     box-sizing: border-box;
-    font-size: normal;
     border-radius: 4px;
     border: none;
 }
@@ -193,7 +197,7 @@ textarea{
     background-color: rgb(49, 49, 49);
 }
 
-input[type=submit]{
+input[type=submit], input[type=button]{
     background-color: #4CAF50;
     color: white;
     border: none;
@@ -203,7 +207,7 @@ input[type=submit]{
     height: 50px;
 }
 
-input[type=submit]:hover{
+input[type=submit]:hover, input[type=button]:hover{
     background-color: rgb(36, 83, 37);
     color: white;
     border: none;
@@ -273,6 +277,17 @@ input[type=submit]:hover{
 
 .short{
     display: none;
+}
+
+.ajaxLoader {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 60px;
+    margin-left: -30px;
+    /*height: 100%;*/
+    z-index: 9999;
 }
   
 

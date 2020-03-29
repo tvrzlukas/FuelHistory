@@ -4,17 +4,19 @@
         <title>Fuel History</title>
         <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="appstyle.css">
-        <link href='https://fonts.googleapis.com/css?family=Great Vibes' rel='stylesheet'>  
+        <link href="https://fonts.googleapis.com/css?family=Great%20Vibes" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="./lib/stackonly/tablesaw.stackonly.css"> <!-- Table stylesheet -->
+
+        <link rel="stylesheet" href="lib/html5-simple-date-input-polyfill/html5-simple-date-input-polyfill.css" /><!--        Date input-->
+
         <script src="./lib/stackonly/tablesaw.stackonly.js"></script>
-        <script src="./lib/stackonly/tablesaw-init.js"></script>
         <script src="script.js"></script>
         <!-- Google Fonts -->
         <meta charset="UTF-8">
         <meta name="description" content="Aplikace pro evidování tankování">
         <meta name="keywords" content="tankování,aplikace,vozidlo,benzín,nafta,evidence,e-evidence">
-
+        <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
 
     <body>
@@ -41,29 +43,21 @@
                     <div class="slideshow-container">
                         <!-- Previous -->
             
-                        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                        <a id="prev" class="prev" onclick="plusSlides(-1);reload();">&#10094;</a>
             
                         <!-- Full-width images with number and caption text -->
-                        <div class="mySlides">
-                            <div class="text">Ford Focus</div>
-                            <img src="assets/focus.png" alt="focus car">
+                        <div id="carsListContainer">
                         </div>
-            
-                        <div class="mySlides">
-                            <div class="text">Škoda Fabia</div>
-                            <img src="assets/fabia.png" alt="fabia car">
-                        </div>
-            
             
                         <!-- Next -->
-                        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                        <a id="next" class="next" onclick="plusSlides(1);reload();">&#10095;</a>
             
                     </div>
             
                     <!-- The dots/circles -->
-                    <div class="dot-container" >
-                        <span class="dot" onclick="currentSlide(1)"></span>
-                        <span class="dot" onclick="currentSlide(2)"></span>
+                    <div id="dots" class="dot-container">
+                        <span class="dot" onclick="currentSlide(1);reload();"></span>
+                        <span class="dot" onclick="currentSlide(2);reload();"></span>
                     </div>
             
             
@@ -75,100 +69,46 @@
 
                     <!-- Tab links -->
                     <div class="tab">
-                        <button class="tablinks" onclick="openTab(event, 'gas')">Tankování</button>
-                        <button class="tablinks" onclick="openTab(event, 'statistics')">Statistiky</button>
-                        <button class="tablinks" onclick="openTab(event, 'vehicles')">Vozidla</button>
+                        <button id="gasTab" class="tablinks" onclick="openTab('gasTab', 'gas')">Tankování</button>
+                        <button id="statisticsTab" class="tablinks" onclick="openTab('statisticsTab', 'statistics')">Statistiky</button>
+                        <button id="vehiclesTab" class="tablinks" onclick="openTab('vehiclesTab', 'vehicles')">Vozidlo</button>
                     </div>
                 
                     <!-- Tab content -->
                     <div id="gas" class="tabcontent">
                         <div class="buttonDiv">
                             <button id="pridat" class="pridat" onclick="insertNew()">Přidat záznam</button>
-                            <button id="smazat" class="smazat" onclick="deleterow()">Smazat záznam</button>
                             <button id="x" class="x" onclick="zavrit()">X</button>
                         </div>
 
                         <div class="insertrow" id="insert-row">
                             <h3>Nový záznam</h3>
-                            <form action=""> 
-                                <input type="date" placeholder="Datum tankování" >
-                                <input type="text" placeholder="Množství tankovaného paliva" >
-                                <input type="text" placeholder="Celková cena za tankování">
-                                <input type="text" placeholder="Stav km">
+                            <form id="addRecordForm" target="dummyframe" method="post" onsubmit="onRowAdded()">
+                                <input type="hidden" id="carId" name="carId" value="0">
+                                <input type="date" name="date" title="Datum tankování" data-polyfill="all" required>
+                                <input type="number" step="0.01" name="liters" placeholder="Množství tankovaného paliva" required>
+                                <input type="number" step="0.01" name="literPrice" placeholder="Cena za litr" required>
+                                <input type="number" name="mileage" placeholder="Stav km" required>
                                 <input type="submit" value="Vložit">
                             </form>
+                            <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+
 
                         </div>
+
+                        <img id="ajaxLoader" class="ajaxLoader" src="./assets/ajax-loader.gif" />
+
 
                         <div class="deleterow" id="delete-row">
                             <h3 style="text-align: center;">Smazat záznam</h3>
-                            <form action="" style="color: black;"> 
+                            <form action="#" style="color: black;">
                                 <input type="text" placeholder="Zvolte datum tankování které se má smazat" >
                                 <input type="submit" style="background-color: red; border: none;" value="Smazat">
+                            </form>
                         </div>
-                        
-                        <table class="tablesaw tablesaw-stack" data-tablesaw-mode="stack">
-                            <thead>
-                                <tr>
-                                    <th scope="col" data-tablesaw-priority="1">Datum</th>
-                                    <th scope="col" data-tablesaw-priority="2">Km</th>
-                                    <th scope="col" data-tablesaw-priority="3">Litry</th>
-                                    <th scope="col" data-tablesaw-priority="4">Cena / l</th>
-                                    <th scope="col" data-tablesaw-priority="5">Cena celkem</th>
-                                    <th scope="col" data-tablesaw-priority="6">Spotřeba</th>
-                                    <th scope="col" data-tablesaw-priority="7">Cena / Km</th>
-                                    <th scope="col" data-tablesaw-priority="8">TRIP</th>
-                                    <th scope="col" data-tablesaw-priority="9">Spotřeba</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <tr><td>9/29/2017</td><td>66970</td><td>15.41</td><td>29.9</td><td>460.759</td><td>6.7293</td><td>2.0120</td><td>229</td><td>6.729</td></tr>
-                            <tr><td>10/8/2017</td><td>67114</td><td>10.86</td><td>29.9</td><td>324.714</td><td>7.5417</td><td>2.2550</td><td>144</td><td>7.042</td></tr>
-                            <tr><td>10/14/2017</td><td>67319</td><td>14.21</td><td>29.9</td><td>424.879</td><td>6.9317</td><td>2.0726</td><td>205</td><td>7.003</td></tr>
-                            <tr><td>10/15/2017</td><td>67494</td><td>10.87</td><td>29.9</td><td>325.013</td><td>6.2114</td><td>1.8572</td><td>175</td><td>6.819</td></tr>
-                            <tr><td>10/25/2017</td><td>67580</td><td>7.69</td><td>29.9</td><td>229.931</td><td>8.9419</td><td>2.6736</td><td>86</td><td>7.036</td></tr>
-                            <tr><td>11/4/2017</td><td>67830</td><td>18.03</td><td>30.5</td><td>549.915</td><td>7.2120</td><td>2.1997</td><td>250</td><td>7.077</td></tr>
-                            <tr><td>11/20/2017</td><td>68209</td><td>26.06</td><td>30.7</td><td>800.042</td><td>6.8760</td><td>2.1109</td><td>379</td><td>7.025</td></tr>
-                            <tr><td>12/9/2017</td><td>68514</td><td>20.07</td><td>30.9</td><td>620.163</td><td>6.5803</td><td>2.0333</td><td>305</td><td>6.948</td></tr>
-                            <tr><td>12/24/2017</td><td>68603</td><td>6.47</td><td>30.9</td><td>199.923</td><td>7.2697</td><td>2.2463</td><td>88.2</td><td>6.964</td></tr>
-                            <tr><td>3/3/2018</td><td>68730</td><td>10.48</td><td>31.5</td><td>330.12</td><td>8.2520</td><td>2.5994</td><td>216</td><td>6.721</td></tr>
-                            <tr><td>4/13/2018</td><td>68918</td><td>13.51</td><td>31.9</td><td>430.969</td><td>7.1862</td><td>2.2924</td><td>188</td><td>6.761</td></tr>
-                            <tr><td>5/6/2018</td><td>69209</td><td>20.06</td><td>32.9</td><td>659.974</td><td>6.8935</td><td>2.2680</td><td>291</td><td>6.776</td></tr>
-                            <tr><td>5/19/2018</td><td>69378</td><td>12.77</td><td>32.9</td><td>420.133</td><td>7.5562</td><td>2.4860</td><td>169</td><td>6.826</td></tr>
-                            <tr><td>6/3/2018</td><td>69649</td><td>19.47</td><td>33.9</td><td>660.033</td><td>7.1845</td><td>2.4355</td><td>271</td><td>6.86</td></tr>
-                            <tr><td>6/14/2018</td><td>69801</td><td>11.18</td><td>34.9</td><td>390.182</td><td>7.3553</td><td>2.5670</td><td>152</td><td>6.884</td></tr>
-                            <tr><td>6/29/2018</td><td>70010</td><td>15.53</td><td>32.2</td><td>500.066</td><td>7.4306</td><td>2.3927</td><td>209</td><td>6.9195</td></tr>
-                            <tr><td>7/5/2018</td><td>70359</td><td>23.16</td><td>34.5</td><td>799.02</td><td>6.6361</td><td>2.2895</td><td>349</td><td>6.8922</td></tr>
-                            <tr><td>7/22/2018</td><td>70631</td><td>18.58</td><td>33.9</td><td>629.862</td><td>6.8309</td><td>2.3157</td><td>272</td><td>6.8879</td></tr>
-                            <tr><td>8/15/2018</td><td>70871</td><td>17.53</td><td>34.2</td><td>599.526</td><td>7.3042</td><td>2.4980</td><td>240</td><td>6.9121</td></tr>
-                            <tr><td>8/28/2018</td><td>70990</td><td>9.95</td><td>34.2</td><td>340.29</td><td>8.3613</td><td>2.8596</td><td>119</td><td>6.9526</td></tr>
-                            <tr><td>9/1/2018</td><td>71283</td><td>18.78</td><td>34.5</td><td>647.91</td><td>6.4096</td><td>2.2113</td><td>293</td><td>6.9176</td></tr>
-                            <tr><td>9/2/2018</td><td>71518</td><td>15.7</td><td>34.5</td><td>541.65</td><td>6.6809</td><td>2.3049</td><td>235</td><td>6.906</td></tr>
-                            <tr><td>9/28/2018</td><td>71663</td><td>10.32</td><td>33.9</td><td>349.848</td><td>7.1172</td><td>2.4127</td><td>145</td><td>6.9122</td></tr>
-                            <tr><td>12/1/2018</td><td>72084</td><td>16.71</td><td>32.9</td><td>549.759</td><td>3.9691</td><td>1.3058</td><td>421</td><td>6.6803</td></tr>
-                            <tr><td>12/23/2018</td><td>72220</td><td>10.04</td><td>31.9</td><td>320.276</td><td>7.3824</td><td>2.3550</td><td>136</td><td>6.6977</td></tr>
-                            <tr><td>12/30/2018</td><td>72520</td><td>21.71</td><td>31.5</td><td>683.865</td><td>7.2367</td><td>2.2796</td><td>300</td><td>6.7257</td></tr>
-                            <tr><td>2/9/2019</td><td>72771</td><td>18.34</td><td>30.5</td><td>559.37</td><td>7.3068</td><td>2.2286</td><td>251</td><td>6.7499</td></tr>
-                            <tr><td>3/1/2019</td><td>73173</td><td>27.12</td><td>30.9</td><td>838.008</td><td>6.7463</td><td>2.0846</td><td>402</td><td>6.7496</td></tr>
-                            <tr><td>4/19/2019</td><td>73456</td><td>9.98</td><td>30.9</td><td>308.382</td><td>3.5265</td><td>1.0897</td><td>283</td><td>6.4652</td></tr>
-                            <tr><td>4/21/2019</td><td>73656</td><td>14.81</td><td>30.9</td><td>457.629</td><td>7.4050</td><td>2.2881</td><td>200</td><td>6.6138</td></tr>
-                            <tr><td>5/7/2019</td><td>73904</td><td>17</td><td>33.5</td><td>569.5</td><td>6.8548</td><td>2.2964</td><td>248</td><td>6.6367</td></tr>
-                            <tr><td>6/9/2019</td><td>74235</td><td>23.78</td><td>33.6</td><td>799.008</td><td>7.1843</td><td>2.4139</td><td>331</td><td>6.6442</td></tr>
-                            <tr><td>6/20/2019</td><td>74455</td><td>16.67</td><td>33.6</td><td>560.112</td><td>7.5773</td><td>2.5460</td><td>220</td><td>6.6681</td></tr>
-                            <tr><td>6/22/2019</td><td>74800</td><td>24.5</td><td>33.2</td><td>813.4</td><td>7.1014</td><td>2.3577</td><td>345</td><td>6.694</td></tr>
-                            <tr><td>7/1/2019</td><td>75006</td><td>13.95</td><td>33.5</td><td>467.325</td><td>6.7718</td><td>2.2686</td><td>206</td><td>6.7115</td></tr>
-                            <tr><td>7/9/2019</td><td>75132</td><td>7.53</td><td>33.2</td><td>249.996</td><td>5.9762</td><td>1.9841</td><td>126</td><td>6.713</td></tr>
-                            <tr><td>7/12/2019</td><td>75307</td><td>10.55</td><td>33.2</td><td>350.26</td><td>6.0286</td><td>2.0015</td><td>175</td><td>6.70194</td></tr>
-                            <tr><td>7/15/2019</td><td>75578</td><td>21.08</td><td>33.2</td><td>699.856</td><td>7.7786</td><td>2.5825</td><td>271</td><td>6.6881</td></tr>
-                            <tr><td>7/25/2019</td><td>76148</td><td>39.75</td><td>33.5</td><td>1331.625</td><td>6.9737</td><td>2.3362</td><td>570</td><td>6.72</td></tr>
-                            <tr><td>8/10/2019</td><td>76721</td><td>38.8</td><td>32.9</td><td>1276.52</td><td>6.7714</td><td>2.2278</td><td>573</td><td>6.803</td></tr>
-                            <tr><td>8/16/2019</td><td>77321</td><td>32.5</td><td>33.5</td><td>1088.75</td><td>5.4167</td><td>1.8146</td><td>600</td><td>6.855</td></tr>
-                            <tr><td>8/31/2019</td><td>77613</td><td>24.44</td><td>32.9</td><td>804.076</td><td>8.3699</td><td>2.7537</td><td>292</td><td>6.769</td></tr>
-                            <tr><td>10/26/2019</td><td>77905</td><td>19.7</td><td>32.5</td><td>640.25</td><td>6.7466</td><td>2.1926</td><td>292</td><td>6.768</td></tr>
-                            <tr><td>11/29/2019</td><td>78153</td><td>18.57</td><td>31.9</td><td>592.383</td><td>7.4879</td><td>2.3886</td><td>248</td><td>6.784</td></tr>
-                            <tr><td>12/1/2019</td><td>78485</td><td>26.64</td><td>31.9</td><td>849.816</td><td>8.0241</td><td>2.5597</td><td>332</td><td>6.819</td></tr>
-                
-                            </tbody>
+
+
+                        <table id="historyTable">
                         </table>
 
                     </div>
@@ -176,48 +116,48 @@
                     <div id="statistics" class="tabcontent" style="display: none;">
 
                         <h2>Statistiky jízd</h2>
-                        <table class="stat_table">
+                        <table id="stat_table" class="stat_table">
 
                             <tr>
                                 <th>Název automobilu</th>
-                                <td>Ford Focus - Trend 1.0 Ecoboost 74kW</td>
+                                <td id="carName">Ford Focus - Trend 1.0 Ecoboost 74kW</td>
                             </tr>
                             <tr>
                                 <th>Počet jednotlivých tankování</th>
-                                <td>45</td>
+                                <td id="totalRefuelCount">45</td>
                             </tr>
                             <tr>
                                 <th>Celkové náklady na tankování od registrace</th>
-                                <td>26 045 Kč</td>
+                                <td id="totalCost">26 045 Kč</td>
                             </tr>
                             <tr>
                                 <th>Měsíční náklady na tankování ( akutuální měsíc )</th>
-                                <td>849 Kč</td>
+                                <td id="monthlyCosts">849 Kč</td>
                             </tr>
                             <tr>
                                 <th>Celkový nájezd v kilometrech od registrace</th>
-                                <td>11 744 km</td>
+                                <td id="totalDriven">11 744 km</td>
                             </tr>
                             <tr>
                                 <th>Roční nájezd v kilometrech ( aktuální rok )</th>
-                                <td>5714 km</td>
+                                <td id="yearlyDriven">5714 km</td>
                             </tr>
                             <tr>
                                 <th>Průměrná spotřeba automobilu</th>
-                                <td>6,81 l/100km</td>
+                                <td id="averageConsumption">6,81 l/100km</td>
                             </tr>
                             <tr>
                                 <th>Průměrná cena za natankovaný litr paliva</th>
-                                <td>32,4 Kč/l</td>
+                                <td id="averagePrice">32,4 Kč/l</td>
                             </tr>
                             <tr>
                                 <th>Počet tankování za aktuální rok</th>
-                                <td>19</td>
+                                <td id="yearlyRefuelCount">19</td>
                             </tr>
 
                         </table>
 
-                        <img src="assets/big.jpg" class="photo" >
+                        <img src="assets/big.jpg" class="photo" alt="background">
 
                     </div>
                 
@@ -229,39 +169,39 @@
 
                             <tr>
                                 <th>Značka vozidla</th>
-                                <td>Ford</td>
+                                <td id="manufacturer"></td>
                             </tr>
                             <tr>
                                 <th>Model vozidla</th>
-                                <td>Focus</td>
+                                <td id="model"></td>
                             </tr>
                             <tr>
                                 <th>Rok výroby</th>
-                                <td>2015</td>
+                                <td id="year"></td>
                             </tr>
                             <tr>
                                 <th>Najeté km při registraci</th>
-                                <td>66 741 km</td>
+                                <td id="registrationMileage"></td>
                             </tr>
                             <tr>
                                 <th>Aktuální najeté km</th>
-                                <td>78 485 km</td>
+                                <td id="totalMileage"></td>
                             </tr>
                             <tr>
                                 <th>SPZ</th>
-                                <td>5AP 1099</td>
+                                <td id="licencePlate"></td>
                             </tr>
                             <tr>
                                 <th>Motorizace</th>
-                                <td>1.0 Ecoboost - 74 kW</td>
+                                <td id="engine"></td>
                             </tr>
-                            <tr>
-                                <th>Stupeň výbavy</th>
-                                <td>Trend</td>
-                            </tr>
+<!--                            <tr>-->
+<!--                                <th>Stupeň výbavy</th>-->
+<!--                                <td id="modelType"></td>-->
+<!--                            </tr>-->
                             <tr>
                                 <th>Palivo</th>
-                                <td>Natural 95</td>
+                                <td id="fuelType"></td>
                             </tr>
                             
 
@@ -276,7 +216,7 @@
         </div>
 
         <section class="footer">
-            
+            <h2 class="heading">Fuel History</h2>
             <div>
                 <p>Fuel History</p>
                 <span class="bold">&copy; 2020</span><br>
@@ -287,7 +227,7 @@
         </section>
 
         <script>
-            currentSlide(1);
+            initialLoad();
         </script>
 
     </body>

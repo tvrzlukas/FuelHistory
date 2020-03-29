@@ -115,7 +115,6 @@ SHEET
 }
  
 .logout{
-    cursor: hand; 
     cursor: pointer;
 }
 
@@ -130,7 +129,6 @@ SHEET
     margin-bottom: 1em;
     padding: 1em;
     border: 0;
-    min-height: 50px;
 }
 
 .pridat{
@@ -155,7 +153,36 @@ SHEET
     width: 3em;
     font-weight: bold;
     display: none;
-    border-radius: 400px;
+    border-radius: 100%;
+}
+
+@media (min-width: 40em) {
+    .tablesaw-stack td, .tablesaw-stack th, .tablesaw-stack thead td, .tablesaw-stack thead th {
+        display: table-cell;
+        text-align: center;
+        margin: 0;
+    }
+
+    .tablesaw-stack td span, .tablesaw-stack th {
+        text-align: center;
+        display: block;
+    }
+}
+
+
+
+.deleteRowBtn {
+    background-color: red;
+    color: white;
+    text-align: center;
+    padding: 2px 4px 2px;
+    margin: 2px 4px 2px;
+    cursor: pointer;
+    opacity: 0.9;
+}
+.deleteRowBtn:hover {
+    cursor: pointer;
+    opacity: 1;
 }
 
 .smazat:hover{
@@ -178,7 +205,7 @@ SHEET
 
 @media screen and (min-width: 640px) {
     div .tabcontent{
-        background-color: white;
+        background-color: rgb(241, 240, 240);
         padding: 1em;
         border-radius: 0.5em;
         min-height: 500px;
@@ -301,7 +328,7 @@ SHEET
 
 /* On hover, add a black background color with a little bit see-through */
 .prev:hover, .next:hover {
-    color: #ffffff;
+    color:  rgb(3, 105, 7);
 }
 
 /* Caption text */
