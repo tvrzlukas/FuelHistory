@@ -22,6 +22,8 @@ if(!isset($_SESSION["username"])) {
 
         <script src="./lib/stackonly/tablesaw.stackonly.js"></script>
         <script src="script.js"></script>
+
+        <script>var sessionId= '<?php echo session_id(); ?>'</script>
         <!-- Google Fonts -->
         <meta charset="UTF-8">
         <meta name="description" content="Aplikace pro evidování tankování">

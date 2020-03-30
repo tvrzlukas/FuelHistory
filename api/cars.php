@@ -1,9 +1,6 @@
 <?php
 header("Content-Type:application/json");
-header("Access-Control-Allow-Origin: http://localhost:63342");
 header("Access-Control-Allow-Methods: GET");
-//Access-Control-Allow-Methods: GET
-//Access-Control-Allow-Headers: Content-Type, Authorization
 
 $databaze = 'ete89e_1920zs_03';
 $uzivatel = 'ete89e_1920zs_03';
@@ -14,7 +11,8 @@ if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 }
 
-//     "modelType":"Trend",
+session_id($_GET['sessionId']);
+session_start();;
 
 //todo by user
 $stmt = $mysqli->prepare("SELECT
@@ -33,9 +31,11 @@ INNER JOIN MANUFACTURER
 ON MODEL.ID_MA = MANUFACTURER.ID_MA
 INNER JOIN FUEL_TYPE
 ON USER_VEHICLES.ID_FT = FUEL_TYPE.ID_FT
-WHERE USER_VEHICLES.ID_US = ?
+INNER JOIN USERS
+ON USER_VEHICLES.ID_US = USERS.ID_US
+WHERE USERS.USERNAME = ?
 ");
-$stmt->bind_param("i", $_GET['userId']);
+$stmt->bind_param("i", $_SESSION["username"]);
 
 
 $stmt->execute();

@@ -39,10 +39,10 @@ if ($_SESSION['username'] == ""){
                 $sql = "SELECT * FROM USERS WHERE username='$username' AND password='$password'";
                 $result = mysqli_query($cnn, $sql);
 
-                    if ( mysqli_num_rows($result) == 1 ){
+                if ( mysqli_num_rows($result) == 1 ){
                         $_SESSION['username'] = $username;
                         header("location: app.php");
-                    }
+                }
                 else{
                     $info = "Chybně zadané heslo nebo uživatelské jméno";
                 }                

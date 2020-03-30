@@ -102,8 +102,7 @@ function zavrit(){
 
 async function initialLoad() {
     const carsListContainer = document.getElementById("carsListContainer");
-
-    const response = await fetch("https://kitlab.pef.czu.cz/1920zs/ete89e/03/php/cars.php?userId=1");
+    const response = await fetch(`https://kitlab.pef.czu.cz/1920zs/ete89e/03/api/cars.php?sessionId=${sessionId}`);
     cars = await response.json();
 
     for (let i = 0; i < cars.length; i++) {
@@ -158,7 +157,7 @@ function reload() {
  * Fuel History Table
  */
 function loadHistoryTable() {
-    fetch(`https://kitlab.pef.czu.cz/1920zs/ete89e/03/php/fuelHistory.php?carId=${cars[slideIndex-1].carId}`)
+    fetch(`https://kitlab.pef.czu.cz/1920zs/ete89e/03/api/fuelHistory.php?carId=${cars[slideIndex-1].carId}`)
         .then((response) => {
             return response.json();
          })
@@ -318,7 +317,7 @@ function onRowDeleted(fhId) {
     showAjaxLoading();
 
     var request = new XMLHttpRequest();
-    request.open('DELETE', './php/fuelHistory.php', true);
+    request.open('DELETE', './api/fuelHistory.php', true);
     request.onload = function() {
         if (this.status >= 200 && this.status < 400) {
             // Success!
@@ -340,7 +339,7 @@ function onRowAdded() {
     var data = new FormData(form);
 
     var request = new XMLHttpRequest();
-    request.open('PUT', './php/fuelHistory.php', true);
+    request.open('PUT', './api/fuelHistory.php', true);
     request.onload = function() {
         if (this.status >= 200 && this.status < 400) {
             // Success!
