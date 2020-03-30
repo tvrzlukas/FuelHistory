@@ -172,7 +172,7 @@ li a:hover{
     border-radius: 10px;
     border: none;
 }
-input{
+input, select {
     padding: 12px 20px;
     margin: 8px 0;
     box-sizing: border-box;

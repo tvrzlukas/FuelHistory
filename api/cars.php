@@ -9,10 +9,10 @@ $databaze = 'ete89e_1920zs_03';
 $uzivatel = 'ete89e_1920zs_03';
 $heslo = 'w2LLED';
 
-$mysqli = new mysqli("localhost", $uzivatel, $heslo, $databaze);
-if ($mysqli->connect_errno) {
-    echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-}
+//$mysqli = new mysqli("localhost", $uzivatel, $heslo, $databaze);
+//if ($mysqli->connect_errno) {
+//    echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+//}
 
 
 
@@ -25,7 +25,7 @@ require ('./user.php');
 
 switch (strtolower($_SERVER['REQUEST_METHOD'])) {
 
-    case "put":
+    case "post":
         parse_str(file_get_contents("php://input"), $vars);
 //        echo $vars['manufacturer'] . ' ' . $vars['mileage'] . ' ' . $vars['liters'] . ' ' . $vars['literPrice'] . ' ' . $vars['date'];
         $stmt = $cnn->prepare("INSERT INTO
@@ -37,19 +37,34 @@ switch (strtolower($_SERVER['REQUEST_METHOD'])) {
         $stmt->close();
         break;
 
+    case "put":
+        parse_str(file_get_contents("php://input"), $vars);
+//        echo $vars['manufacturer'] . ' ' . $vars['mileage'] . ' ' . $vars['liters'] . ' ' . $vars['literPrice'] . ' ' . $vars['date'];
+        $stmt = $cnn->prepare("UPDATE USER_VEHICLES SET
+             LIC_PLATE = ?,
+             MAN_YEAR = ?,
+             CUBICS = ?,
+             POWER = ?,
+             REGISTRATION_MILEAGE = ?
+        WHERE ID_UV = ? AND ID_US = ?");
+        $stmt->bind_param("sisiiii",$vars['spz'],  $vars['year'], $vars['cubics'], $vars['power'], $vars['registrationMileage'], $vars['carId'], $userId );
+//        echo $vars['spz'], $vars['model'], $vars['year'], $vars['fuelType'], $vars['cubics'], $vars['power'], $vars['registrationMileage'], $vars['carId'], $userId;
+        $stmt->execute();
+        echo "$stmt->affected_rows";
+        $stmt->close();
+        break;
+
     case "delete":
-//        echo "this is a delete request\n";
-//        parse_str(file_get_contents("php://input"), $vars);
-//        $stmt = $mysqli->prepare("DELETE FROM FUEL_HIST WHERE ID_FH = ?");
-//        echo $vars['fhId'];
-//        $stmt->bind_param("i", $vars['fhId']);
-//        $exec = $stmt->execute();
-//        if (false === $exec) {
-//            error_log('mysqli execute() failed: ');
-//            error_log(print_r(htmlspecialchars($stmt->error), true));
-//        }
-//        $stmt->close();
-//        $mysqli->close();
+        //smazat i vsechny zaznamy v historii
+        parse_str(file_get_contents("php://input"), $vars);
+        $stmt = $cnn->prepare("DELETE FROM USER_VEHICLES WHERE ID_UV = ?");
+        $stmt->bind_param("i", $vars['carId']);
+        $exec = $stmt->execute();
+        if (false === $exec) {
+            error_log('mysqli execute() failed: ');
+            error_log(print_r(htmlspecialchars($stmt->error), true));
+        }
+        $stmt->close();
         break;
 
     case "get":
@@ -76,6 +91,7 @@ switch (strtolower($_SERVER['REQUEST_METHOD'])) {
         $stmt->bind_param("i", $userId);
         $stmt->execute();
         $result = $stmt->get_result();
+        $myArray = [];
         while ($row = $result->fetch_assoc()) {
             $myArray[] = $row;
         }

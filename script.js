@@ -101,6 +101,7 @@ function zavrit(){
 
 
 async function initialLoad() {
+    showAjaxLoading();
     const carsListContainer = document.getElementById("carsListContainer");
     const dotsContainer = document.getElementById("dotsContainer");
     const response = await fetch(`https://kitlab.pef.czu.cz/1920zs/ete89e/03/api/cars.php?sessionId=${sessionId}`);
@@ -137,9 +138,15 @@ async function initialLoad() {
 
     }
 
-    showSlides(1);
-    reload();
-    openTab('gasTab', 'gas');
+    if(cars && cars.length > 0) {
+        showSlides(1);
+        reload();
+        openTab('gasTab', 'gas');
+    } else {
+        location.replace("vehicles.php");
+    }
+
+    hideAjaxLoading();
 }
 
 async function loadCarImage(carImg, url) {

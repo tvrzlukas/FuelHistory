@@ -1,5 +1,79 @@
 <?php
 session_start();
+
+require("db.php");
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+$stmt = $cnn->prepare("SELECT
+                        ID_MA as manufacturerId,
+                        NAME as manufacturer
+                    FROM MANUFACTURER;
+                    ");
+$stmt->execute();
+$result = $stmt->get_result();
+$manufacturers = [];
+while ($row = $result->fetch_assoc()) {
+    $manufacturer = new IdNameHolder();
+    $manufacturer->id = $row['manufacturerId'];
+    $manufacturer->name = $row['manufacturer'];
+    array_push($manufacturers, $manufacturer);
+}
+$stmt->close();
+
+
+function createManufacturerAndModel($manufacturers) {
+    echo "<label>Značka</label><br>";
+    echo "<select onchange=\"updateManufacturerModels('model', this)\">";
+    echo "<option>-- Značka --</option>";
+    foreach ($manufacturers as $manufacturer){
+        echo "<option value=\"".$manufacturer->id."\">".$manufacturer->name."</option>";
+    }
+    echo "</select><br><label>Model</label><br>";
+
+    echo "<select id='model' name='model'><option>-- Model --</option></select><br>";
+}
+
+
+class IdNameHolder
+{
+    var $id;
+    var $name;
+}
+
+function createJSONModelMap($cnn) {
+    $stmt = $cnn->prepare("SELECT
+                        ID_MA as manufacturerId,
+                        ID_MO as modelId,
+                        NAME as name
+                    FROM MODEL;
+                    ");
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $map = array();
+    $currentManufacturer = 0;
+    $manufacturerModels = [];
+    while ($row = $result->fetch_assoc()) {
+        $model = new IdNameHolder;
+        $model->id = $row['modelId'];
+        $model->name = $row['name'];
+
+        if($currentManufacturer != $row['manufacturerId']) {
+            //dosahl jsem na dalsiho vyrobce aut
+            $currentManufacturer = $row['manufacturerId'];
+            $manufacturerModels = [];
+        }
+        array_push($manufacturerModels, $model);
+        $map[$row['manufacturerId']] = $manufacturerModels;
+    }
+    $stmt->close();
+    echo json_encode($map);
+}
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -12,6 +86,7 @@ session_start();
         <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 
         <script>var sessionId= '<?php echo session_id(); ?>'</script>
+        <script>var modelsMap=<?php createJSONModelMap($cnn)?></script>
         <script src="script.js"></script>
         <!-- Google Fonts -->
         <meta charset="UTF-8">
@@ -25,21 +100,12 @@ session_start();
 
         <?php
 
-            require("db.php");
 
             if (isset($_GET['logout'])){
                 session_destroy();
                 unset($_SESSION['username']);
                 header("location: index.php");
             }
-
-//            $username = $_SESSION['username'];
-//            $loginDb = "SELECT username FROM f123831.USERS WHERE username ='$username'";
-//            $query1 = mysqli_query($cnn, $loginDb);
-//            $emailDb = "SELECT email FROM f123831.USERS WHERE username ='$username'";
-//            $query2 = mysqli_query($cnn, $emailDb);
-
-
 
         ?>
               
@@ -61,72 +127,173 @@ session_start();
         <!-- Content -->
 
        <div class="container">
-            <h2 style="text-align: center;">Nastavení</h2>
+            <h2 style="text-align: center;">Vozidla</h2>
             <div>
-                <section class="settings">
+                <?php
 
-                    <h3>Základní údaje</h3>
-                    <form action="#">
 
-                        <label for="username">Login</label><br>
-                        <input type="text" id="username" readonly style="background-color: lightgray;"> <br>
-                        <label for="email">E-mailová adresa</label>  <br>     
-                        <input type="text" id="email" readonly style="background-color: lightgray;"> <br>
+                $stmt = $cnn->prepare("SELECT
+                        USER_VEHICLES.ID_UV as carId,
+                        MANUFACTURER.NAME as manufacturer,
+                        MANUFACTURER.ID_MA as manufacturerId,
+                        MODEL.NAME as model,
+                        MODEL.ID_MO as modelId,
+                        USER_VEHICLES.MAN_YEAR as 'year',
+                        USER_VEHICLES.LIC_PLATE as licencePlate,
+                        USER_VEHICLES.REGISTRATION_MILEAGE as registrationMileage,
+                        USER_VEHICLES.CUBICS as cubics,
+                        USER_VEHICLES.POWER as power,
+                        FUEL_TYPE.TYPE as fuelType
+                    FROM USER_VEHICLES
+                    INNER JOIN MODEL
+                    ON USER_VEHICLES.ID_MO = MODEL.ID_MO
+                    INNER JOIN MANUFACTURER
+                    ON MODEL.ID_MA = MANUFACTURER.ID_MA
+                    INNER JOIN FUEL_TYPE
+                    ON USER_VEHICLES.ID_FT = FUEL_TYPE.ID_FT
+                    INNER JOIN USERS
+                    ON USER_VEHICLES.ID_US = USERS.ID_US
+                    WHERE USERS.USERNAME = ?
+                    ");
+                $stmt->bind_param("s", $_SESSION['username']);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                while ($row = $result->fetch_assoc()) {
+//                    $myArray[] = $row;
+                    echo "<section id='section-". $row["carId"] ."' class=\"settings\">
+                        <h3>Údaje o vozidle   ". $row["manufacturer"] ." ". $row["model"] ."</h3>
+                        <form id='form-". $row["carId"] ."'  target=\"dummyframe\" method=\"post\" >";
+
+
+                    echo "   
+                            <label for=\"spz\">SPZ</label><br>
+                            <input type=\"text\" name=\"spz\" value='". $row["licencePlate"] ."' required><br>
+    
+                            <label for=\"motorizace\">Motorizace</label><br>
+                            <input type=\"text\" name=\"cubics\" value='". $row["cubics"] ."' required><br>
+    
+                            <label for=\"power\">Výkon</label><br>
+                            <input type=\"number\" name=\"power\" value='". $row["power"] ."' required><br>
+    
+                            <label for=\"vyroba\">Rok výroby</label><br>
+                            <input type=\"number\" maxlength=\"4\" name=\"year\" value='". $row["year"] ."' required><br>
+    
+                            <label for=\"registrationMileage\">Najeté kilometry při registraci</label><br>
+                            <input type=\"number\" name=\"registrationMileage\" value='". $row["registrationMileage"] ."' required><br>
+                          
+                            <input type=\"submit\" id=\"change\" value=\"Změnit\" style=\"background-color: orange;\" onclick='editCar(". $row["carId"] .")'>
+                            <input type=\"submit\" id=\"delete\" value=\"Smazat\" style=\"background-color: red;\" onclick='removeCar(". $row["carId"] .")'>  
 
                     </form>
 
                 </section>
+                        ";
+
+                }
+                $stmt->close();
+                ?>
+
+                <h2 style="text-align: center;">Přidat vozidlo</h2>
 
                 <section class="settings">
 
-                    <h3>Údaje o vozidle</h3>
+                    <h3>Údaje o novém vozidle</h3>
 
-                    <form id="addVehicle" target="dummyframe2" method="post" onsubmit="addCar()">
+                    <form id="addVehicle" target="dummyframe" method="post" onsubmit="addCar()">
 
-                        <label>Značka</label><br>
-                        <input type="text"><br>
+                        <?php echo createManufacturerAndModel($manufacturers, $row["carId"]); ?>
 
-                        <label for="model">Model vozidla</label><br>
-                        <input type="text" name="model"><br>
+                        <label for="newSpz">SPZ</label><br>
+                        <input type="text" name="spz" id="newSpz" required><br>
 
-                        <label for="spz">SPZ</label><br>
-                        <input type="text" name="spz"><br>
+                        <label for="newMotorizace">Motorizace</label><br>
+                        <input type="text" name="cubics" id="newMotorizace" required><br>
 
-                        <label for="motorizace">Motorizace</label><br>
-                        <input type="text" name="cubics"><br>
+                        <label for="newPower">Výkon</label><br>
+                        <input type="number" name="power" id="newPower" required><br>
 
-                        <label for="power">Výkon</label><br>
-                        <input type="number" name="power"><br>
+                        <label for="newVyroba">Rok výroby</label><br>
+                        <input type="number" name="year" id="newVyroba" required><br>
 
-                        <label for="vyroba">Rok výroby</label><br>
-                        <input type="text" name="year"><br>
+                        <label for="newfuelType">Palivo</label><br>
+                        <select name="fuelType" id="newfuelType" required>
+                            <option value="1">--</option>
+                            <option value="2">Benzin</option>
+                            <option value="3">Diesel</option>
+                            <option value="4">LPG-Benzin</option>
+                            <option value="5">CNG</option>
+                        </select><br>
 
-                        <label for="palivo">Palivo</label><br>
-                        <input type="text" name="fuelType"><br>
-
-                        <label for="registrationMileage">Najeté kilometry</label><br>
-                        <input type="text" name="registrationMileage"><br>
+                        <label for="registrationMileage">Najeté kilometry při registraci</label><br>
+                        <input type="number" name="registrationMileage" required><br>
 
                         <input type="submit" value="Přidat">
-<!--                        <input type="submit" id="change" value="Změnit">-->
-<!--                        <input type="submit" id="delete" value="Smazat" style="background-color: red;">                     -->
+
 
                     </form>
-                    <iframe name="dummyframe2" id="dummyframe2" style="display: none;"></iframe>
-              
+
                 </section>
             </div>
        </div>
 
+        <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
         <img id="ajaxLoader" class="ajaxLoader" src="./assets/ajax-loader.gif" />
+
+
+
+        <?php
+
+        ?>
 
     </body>
 
     <script>
-        function addCar() {
+
+        function updateManufacturerModels(id, selectedObject) {
+            const manufacturer = selectedObject.value;
+            const modelSelect = document.getElementById(id);
+            modelSelect.innerHTML = "";
+            for (const models in modelsMap[manufacturer]) {
+                // for(const model in modelsMap[manufacturer][models]) {
+                //     console.log(model);
+                    const option = document.createElement("option");
+                    option.setAttribute("value", modelsMap[manufacturer][models]['id']);
+                    option.innerText = modelsMap[manufacturer][models]['name'];
+                    modelSelect.appendChild(option);
+                // }
+            }
+        }
+
+        function removeCar(carId) {
             showAjaxLoading();
 
-            const form = document.getElementById('addVehicle');
+            const form = document.getElementById(`form-${carId}`);
+            const data = new FormData(form);
+            console.log(Array.from(data));
+            const request = new XMLHttpRequest();
+            request.open('DELETE', `./api/cars.php?sessionId=${sessionId}`, true);
+            request.onload = function() {
+                if (this.status >= 200 && this.status < 400) {
+                    // Success!
+                    console.log(this.response);
+                    // reload();
+                    document.getElementById(`section-${carId}`).remove();
+                    hideAjaxLoading();
+                } else {
+                    // We reached our target server, but it returned an error
+                    alert("Problém s kontaktováním serveru, zkontrolujte připojení");
+                    hideAjaxLoading();
+                }
+            };
+            const dataString = `carId=${carId}`;
+            request.send(dataString);
+
+        }
+
+        function editCar(carId) {
+            showAjaxLoading();
+
+            const form = document.getElementById(`form-${carId}`);
             const data = new FormData(form);
             console.log(Array.from(data));
             const request = new XMLHttpRequest();
@@ -135,6 +302,11 @@ session_start();
                 if (this.status >= 200 && this.status < 400) {
                     // Success!
                     console.log(this.response);
+                    if(this.response == 1) {
+                        alert("Změny úspěšně uloženy");
+                    } else {
+                        alert("Změny se nepodařilo uložit");
+                    }
                     // reload();
                     hideAjaxLoading();
                 } else {
@@ -143,7 +315,35 @@ session_start();
                     hideAjaxLoading();
                 }
             };
-            const dataString = "model=" + data.get('spz') + "&spz=" + data.get('date') + "&cubics=" + data.get('cubics') + "&power=" + data.get('power')+ "&year=" + data.get('year') + "&fuelType=" + data.get('fuelType') + "&registrationMileage=" + data.get('registrationMileage');
+            const dataString = "spz=" + data.get('spz') + "&model=" + data.get('model') + "&cubics=" + data.get('cubics') + "&power=" + data.get('power')+ "&year=" + data.get('year') + "&fuelType=" + data.get('fuelType') + "&registrationMileage=" + data.get('registrationMileage') + "&carId=" + carId;
+            console.log(dataString);
+            request.send(dataString);
+
+        }
+
+
+        function addCar() {
+            showAjaxLoading();
+
+            const form = document.getElementById('addVehicle');
+            const data = new FormData(form);
+            console.log(Array.from(data));
+            const request = new XMLHttpRequest();
+            request.open('POST', `./api/cars.php?sessionId=${sessionId}`, true);
+            request.onload = function() {
+                if (this.status >= 200 && this.status < 400) {
+                    // Success!
+                    console.log(this.response);
+                    // reload();
+                    hideAjaxLoading();
+                    location.replace("app.php");
+                } else {
+                    // We reached our target server, but it returned an error
+                    alert("Problém s kontaktováním serveru, zkontrolujte připojení");
+                    hideAjaxLoading();
+                }
+            };
+            const dataString = "model=" + data.get('model') + "&spz=" + data.get('spz') + "&cubics=" + data.get('cubics') + "&power=" + data.get('power')+ "&year=" + data.get('year') + "&fuelType=" + data.get('fuelType') + "&registrationMileage=" + data.get('registrationMileage');
             console.log(dataString);
             request.send(dataString);
 
