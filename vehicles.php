@@ -10,9 +10,8 @@ session_start();
         <link rel="stylesheet" href="style.css">
         <link href="https://fonts.googleapis.com/css?family=Great%20Vibes" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="./lib/stackonly/tablesaw.stackonly.css"> <!-- Table stylesheet -->
-        <script src="./lib/stackonly/tablesaw.stackonly.js"></script>
-        <script src="./lib/stackonly/tablesaw-init.js"></script>
+
+        <script>var sessionId= '<?php echo session_id(); ?>'</script>
         <script src="script.js"></script>
         <!-- Google Fonts -->
         <meta charset="UTF-8">
@@ -34,11 +33,11 @@ session_start();
                 header("location: index.php");
             }
 
-            $username = $_SESSION['username'];
-            $loginDb = "SELECT username FROM f123831.USERS WHERE username ='$username'";
-            $query1 = mysqli_query($cnn, $loginDb);
-            $emailDb = "SELECT email FROM f123831.USERS WHERE username ='$username'";
-            $query2 = mysqli_query($cnn, $emailDb);
+//            $username = $_SESSION['username'];
+//            $loginDb = "SELECT username FROM f123831.USERS WHERE username ='$username'";
+//            $query1 = mysqli_query($cnn, $loginDb);
+//            $emailDb = "SELECT email FROM f123831.USERS WHERE username ='$username'";
+//            $query2 = mysqli_query($cnn, $emailDb);
 
 
 
@@ -54,6 +53,7 @@ session_start();
                 <li style="float: right;"><a href="app.php?logout='1'" class="logout">Odhlásit</a></li>
                 <li style="float: right;"><a href="app.php" class="app">Aplikace</a></li>
                 <li style="float: right;"><p>Přihlášený uživatel: <?php echo $_SESSION['username']; ?>&nbsp;&nbsp;</p></li>
+                <li style="float: right;"><p>SessionId: <?php echo session_id(); ?>&nbsp;&nbsp;</p></li>
 
             </ul>
         </nav>
@@ -81,30 +81,72 @@ session_start();
 
                     <h3>Údaje o vozidle</h3>
 
-                    <form action="#">
+                    <form id="addVehicle" target="dummyframe2" method="post" onsubmit="addCar()">
 
-                        <label for="znacka">Značka</label><br>
-                        <input type="text" id="znacka" placeholder="Ford" ><br>
+                        <label>Značka</label><br>
+                        <input type="text"><br>
+
                         <label for="model">Model vozidla</label><br>
-                        <input type="text" id="model" placeholder="Focus" ><br>
+                        <input type="text" name="model"><br>
+
                         <label for="spz">SPZ</label><br>
-                        <input type="text" id="spz" placeholder="5AP 1099" ><br>
+                        <input type="text" name="spz"><br>
+
                         <label for="motorizace">Motorizace</label><br>
-                        <input type="text" id="motorizace" placeholder="1.0 Ecoboost" ><br>
+                        <input type="text" name="cubics"><br>
+
+                        <label for="power">Výkon</label><br>
+                        <input type="number" name="power"><br>
+
                         <label for="vyroba">Rok výroby</label><br>
-                        <input type="text" id="vyroba" placeholder="2015" ><br>
+                        <input type="text" name="year"><br>
+
                         <label for="palivo">Palivo</label><br>
-                        <input type="text" id="palivo" placeholder="Natural 95" ><br>
-                        <label for="foto">Foto vozidla</label><br>
-                        <input type="text" id="foto" placeholder="/assets/focus.png" ><br>
-                        <input type="submit" id="change" value="Změnit">  
-                        <input type="submit" id="delete" value="Smazat" style="background-color: red;">                     
+                        <input type="text" name="fuelType"><br>
+
+                        <label for="registrationMileage">Najeté kilometry</label><br>
+                        <input type="text" name="registrationMileage"><br>
+
+                        <input type="submit" value="Přidat">
+<!--                        <input type="submit" id="change" value="Změnit">-->
+<!--                        <input type="submit" id="delete" value="Smazat" style="background-color: red;">                     -->
 
                     </form>
+                    <iframe name="dummyframe2" id="dummyframe2" style="display: none;"></iframe>
               
                 </section>
             </div>
        </div>
 
+        <img id="ajaxLoader" class="ajaxLoader" src="./assets/ajax-loader.gif" />
+
     </body>
+
+    <script>
+        function addCar() {
+            showAjaxLoading();
+
+            const form = document.getElementById('addVehicle');
+            const data = new FormData(form);
+            console.log(Array.from(data));
+            const request = new XMLHttpRequest();
+            request.open('PUT', `./api/cars.php?sessionId=${sessionId}`, true);
+            request.onload = function() {
+                if (this.status >= 200 && this.status < 400) {
+                    // Success!
+                    console.log(this.response);
+                    // reload();
+                    hideAjaxLoading();
+                } else {
+                    // We reached our target server, but it returned an error
+                    alert("Problém s kontaktováním serveru, zkontrolujte připojení");
+                    hideAjaxLoading();
+                }
+            };
+            const dataString = "model=" + data.get('spz') + "&spz=" + data.get('date') + "&cubics=" + data.get('cubics') + "&power=" + data.get('power')+ "&year=" + data.get('year') + "&fuelType=" + data.get('fuelType') + "&registrationMileage=" + data.get('registrationMileage');
+            console.log(dataString);
+            request.send(dataString);
+
+        }
+    </script>
 </html>

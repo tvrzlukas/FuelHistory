@@ -102,6 +102,7 @@ function zavrit(){
 
 async function initialLoad() {
     const carsListContainer = document.getElementById("carsListContainer");
+    const dotsContainer = document.getElementById("dotsContainer");
     const response = await fetch(`https://kitlab.pef.czu.cz/1920zs/ete89e/03/api/cars.php?sessionId=${sessionId}`);
     cars = await response.json();
 
@@ -128,6 +129,11 @@ async function initialLoad() {
         await loadCarImage(carImg, url);
         carImg.setAttribute("alt", cars[i]['model'] + 'car');
         mySlides.appendChild(carImg);
+
+        const dot = document.createElement("span");
+        dot.setAttribute("class", "dot");
+        dot.setAttribute("onclick", `currentSlide(${i+1});reload();`);
+        dotsContainer.appendChild(dot);
 
     }
 
@@ -223,7 +229,7 @@ function buildHtmlTable(arr) {
                 var tdDelete = document.createElement('td');
                 var deleteBtn = document.createElement("div");
                 deleteBtn.setAttribute("id", "deleteFh-" + arr[i]['fhId']);
-                deleteBtn.setAttribute("onClick", "onRowDeleted(" + arr[i]['fhId'] + ");");
+                deleteBtn.setAttribute("onClick", "deleteRow(" + arr[i]['fhId'] + ");");
                 deleteBtn.innerText = "Smazat";
                 deleteBtn.setAttribute("class", "deleteRowBtn");
                 deleteBtn.value = arr[i]['fhId'];
@@ -313,7 +319,7 @@ function fillDataByProperty(property, data) {
 }
 
 
-function onRowDeleted(fhId) {
+function deleteRow(fhId) {
     showAjaxLoading();
 
     var request = new XMLHttpRequest();
@@ -333,10 +339,11 @@ function onRowDeleted(fhId) {
     request.send("fhId=" + fhId);
 }
 
-function onRowAdded() {
+function addRow() {
     showAjaxLoading();
     var form = document.getElementById("addRecordForm");
     var data = new FormData(form);
+    console.log(Array.from(data));
 
     var request = new XMLHttpRequest();
     request.open('PUT', './api/fuelHistory.php', true);

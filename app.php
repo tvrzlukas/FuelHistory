@@ -21,9 +21,10 @@ if(!isset($_SESSION["username"])) {
         <link rel="stylesheet" href="lib/html5-simple-date-input-polyfill/html5-simple-date-input-polyfill.css" /><!--        Date input-->
 
         <script src="./lib/stackonly/tablesaw.stackonly.js"></script>
-        <script src="script.js"></script>
 
         <script>var sessionId= '<?php echo session_id(); ?>'</script>
+        <script src="script.js"></script>
+
         <!-- Google Fonts -->
         <meta charset="UTF-8">
         <meta name="description" content="Aplikace pro evidování tankování">
@@ -50,6 +51,7 @@ if(!isset($_SESSION["username"])) {
                 <li style="float: right;"><a href="app.php?logout='1'" class="logout">Odhlásit</a></li>
                 <li style="float: right;"><a href="vehicles.php" class="app">Vozidla</a></li>
                 <li style="float: right;"><p>Přihlášený uživatel: <?php echo $_SESSION['username']; ?>&nbsp;&nbsp;</p></li>
+                <li style="float: right;"><p>SessionId: <?php echo session_id(); ?>&nbsp;&nbsp;</p></li>
             </ul>
         </nav>
 
@@ -75,10 +77,13 @@ if(!isset($_SESSION["username"])) {
                     </div>
             
                     <!-- The dots/circles -->
-                    <div id="dots" class="dot-container">
-                        <span class="dot" onclick="currentSlide(1);reload();"></span>
-                        <span class="dot" onclick="currentSlide(2);reload();"></span>
+                    <div id="dotsContainer" class="dot-container">
                     </div>
+
+<!--                    <div id="dots" class="dot-container">-->
+<!--                        <span class="dot" onclick="currentSlide(1);reload();"></span>-->
+<!--                        <span class="dot" onclick="currentSlide(2);reload();"></span>-->
+<!--                    </div>-->
             
             
                 </div>
@@ -103,7 +108,7 @@ if(!isset($_SESSION["username"])) {
 
                         <div class="insertrow" id="insert-row">
                             <h3>Nový záznam</h3>
-                            <form id="addRecordForm" target="dummyframe" method="post" onsubmit="onRowAdded()">
+                            <form id="addRecordForm" target="dummyframe" method="post" onsubmit="addRow()">
                                 <input type="hidden" id="carId" name="carId" value="0">
                                 <input type="date" name="date" title="Datum tankování" data-polyfill="all" required>
                                 <input type="number" step="0.01" name="liters" placeholder="Množství tankovaného paliva" required>
