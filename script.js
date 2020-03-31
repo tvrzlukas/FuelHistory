@@ -54,6 +54,10 @@ function openTab(selectedTabId, tabContentId) {
     // Show the current tab, and add an "active" class to the button that opened the tab
     document.getElementById(tabContentId).style.display = "block";
     document.getElementById(selectedTabId).className += " active";
+
+    // if(selectedTabId === 'statisticsTab') {
+    //     loadStatisticsTable();
+    // }
 }
 
 
@@ -149,8 +153,8 @@ async function loadCarImage(carImg, url) {
  * */
 function reload() {
     loadHistoryTable();
-    loadStatisticsTable();
     loadVehicleTable();
+    loadStatisticsTable();
 }
 
 /**
@@ -290,10 +294,15 @@ function translate(key) {
 /***
  * Statistics Tab;e
  */
-function loadStatisticsTable(data) {
-    for (const property in data) {
-        fillDataByProperty(property, data);
+async function loadStatisticsTable() {
+    showAjaxLoading();
+    const response = await fetch(`./api/statistics.php?sessionId=${sessionId}&carId=${cars[slideIndex-1]['carId']}`);
+    const statistics = await response.json();
+    statistics['carName'] = cars[slideIndex - 1]['manufacturer'] + ' ' + cars[slideIndex - 1]['model'];
+    for (const property in statistics) {
+        fillDataByProperty(property, statistics);
     }
+    hideAjaxLoading();
 }
 
 

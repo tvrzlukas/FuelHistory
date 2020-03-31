@@ -51,7 +51,7 @@ if(!isset($_SESSION["username"])) {
                 <li style="float: right;"><a href="app.php?logout='1'" class="logout">Odhlásit</a></li>
                 <li style="float: right;"><a href="vehicles.php" class="app">Vozidla</a></li>
                 <li style="float: right;"><p>Přihlášený uživatel: <?php echo $_SESSION['username']; ?>&nbsp;&nbsp;</p></li>
-                <li style="float: right;"><p>SessionId: <?php echo session_id(); ?>&nbsp;&nbsp;</p></li>
+<!--                <li style="float: right;"><p>SessionId: --><?php //echo session_id(); ?><!--&nbsp;&nbsp;</p></li>-->
             </ul>
         </nav>
 

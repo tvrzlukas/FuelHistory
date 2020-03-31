@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+if(!isset($_SESSION["username"])) {
+    header("Location: login.php");
+    exit();
+}
+
 require("db.php");
 
 //ini_set('display_errors', 1);
@@ -107,7 +112,7 @@ function createJSONModelMap($cnn) {
                 <li style="float: right;"><a href="app.php?logout='1'" class="logout">Odhlásit</a></li>
                 <li style="float: right;"><a href="app.php" class="app">Aplikace</a></li>
                 <li style="float: right;"><p>Přihlášený uživatel: <?php echo $_SESSION['username']; ?>&nbsp;&nbsp;</p></li>
-                <li style="float: right;"><p>SessionId: <?php echo session_id(); ?>&nbsp;&nbsp;</p></li>
+<!--                <li style="float: right;"><p>SessionId: --><?php //echo session_id(); ?><!--&nbsp;&nbsp;</p></li>-->
 
             </ul>
         </nav>
