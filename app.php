@@ -164,10 +164,6 @@ if(!isset($_SESSION["username"])) {
                                 <td id="totalDriven">11 744 km</td>
                             </tr>
                             <tr>
-                                <th>Roční nájezd v kilometrech ( aktuální rok )</th>
-                                <td id="yearlyDriven">5714 km</td>
-                            </tr>
-                            <tr>
                                 <th>Průměrná spotřeba automobilu</th>
                                 <td id="averageConsumption">6,81 l/100km</td>
                             </tr>

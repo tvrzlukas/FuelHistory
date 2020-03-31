@@ -65,27 +65,6 @@ switch (strtolower($_SERVER['REQUEST_METHOD'])) {
         $carStatistics->monthlyCosts = $result['monthlyCosts'];
         $stmt->close();
 
-
-        $stmt = $cnn->prepare("
-        SELECT 
-            ROUND(MAX(fh.MILEAGE) - (CASE 
-                WHEN MIN(fh.MILEAGE) = MAX(fh.MILEAGE) THEN uv.REGISTRATION_MILEAGE
-             ELSE MIN(fh.MILEAGE) END), 2) as yearlyDriven
-        FROM
-            FUEL_HIST fh
-            JOIN USER_VEHICLES uv ON fh.ID_UV=uv.ID_UV
-            JOIN USERS as u ON u.id_us = uv.id_us
-        WHERE
-            u.id_us = ?
-            and uv.id_uv = ?
-            and fh.fuel_date > STR_TO_DATE(sysdate(), '%Y')
-                    ");
-        $stmt->bind_param("ii", $userId, $_GET['carId']);
-        $stmt->execute();
-        $result = $stmt->get_result()->fetch_assoc();
-        $carStatistics->yearlyDriven = $result['yearlyDriven'];
-        $stmt->close();
-
         $stmt = $cnn->prepare("
                 SELECT COUNT(fuel_date) as yearlyRefuelCount
                 FROM FUEL_HIST as fh 
