@@ -1,26 +1,7 @@
 <?php
-//header("Content-Type:application/json");
-//header("Access-Control-Allow-Methods: GET");
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-$databaze = 'ete89e_1920zs_03';
-$uzivatel = 'ete89e_1920zs_03';
-$heslo = 'w2LLED';
-
-//$mysqli = new mysqli("localhost", $uzivatel, $heslo, $databaze);
-//if ($mysqli->connect_errno) {
-//    echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-//}
 
 
-
-//load $userId
-require '../db.php';
-require ('./user.php');
-
-
+require('./authorizeUser.php');
 
 
 switch (strtolower($_SERVER['REQUEST_METHOD'])) {
@@ -31,7 +12,6 @@ switch (strtolower($_SERVER['REQUEST_METHOD'])) {
         $stmt = $cnn->prepare("INSERT INTO
             USER_VEHICLES(ID_US, LIC_PLATE, ID_MO, MAN_YEAR, ID_FT, CUBICS, POWER, REGISTRATION_MILEAGE)
                 VALUES (?,?,?,?,?,?,?,?)");
-        echo $userId;
         $stmt->bind_param("isiiisii", $userId ,$vars['spz'], $vars['model'],  $vars['year'], $vars['fuelType'], $vars['cubics'], $vars['power'], $vars['registrationMileage']);
         $stmt->execute();
         $stmt->close();
@@ -57,8 +37,8 @@ switch (strtolower($_SERVER['REQUEST_METHOD'])) {
     case "delete":
         //smazat i vsechny zaznamy v historii
         parse_str(file_get_contents("php://input"), $vars);
-        $stmt = $cnn->prepare("DELETE FROM USER_VEHICLES WHERE ID_UV = ?");
-        $stmt->bind_param("i", $vars['carId']);
+        $stmt = $cnn->prepare("DELETE FROM USER_VEHICLES WHERE ID_UV = ? AND IS_US = ?");
+        $stmt->bind_param("ii", $vars['carId'], $userId);
         $exec = $stmt->execute();
         if (false === $exec) {
             error_log('mysqli execute() failed: ');

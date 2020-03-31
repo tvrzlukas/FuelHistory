@@ -166,20 +166,20 @@ function createJSONModelMap($cnn) {
 
 
                     echo "   
-                            <label for=\"spz\">SPZ</label><br>
-                            <input type=\"text\" name=\"spz\" value='". $row["licencePlate"] ."' required><br>
+                            <label for=\"spz-".$row["carId"]."\">SPZ</label><br>
+                            <input type=\"text\" name=\"spz\" id=\"spz-".$row["carId"]."\" value='". $row["licencePlate"] ."' required><br>
     
-                            <label for=\"motorizace\">Motorizace</label><br>
-                            <input type=\"text\" name=\"cubics\" value='". $row["cubics"] ."' required><br>
+                            <label for=\"motorizace-".$row["carId"]."\" \">Objem motoru v litrech</label><br>
+                            <input type=\"numeric\" name=\"cubics\" id=\"motorizace-".$row["carId"]."\" value='". $row["cubics"] ."' required><br>
     
-                            <label for=\"power\">Výkon</label><br>
-                            <input type=\"number\" name=\"power\" value='". $row["power"] ."' required><br>
+                            <label for=\"power-".$row["carId"]."\">Výkon</label><br>
+                            <input type=\"number\" name=\"power\" id=\"power-".$row["carId"]."\" value='". $row["power"] ."' required><br>
     
-                            <label for=\"vyroba\">Rok výroby</label><br>
-                            <input type=\"number\" maxlength=\"4\" name=\"year\" value='". $row["year"] ."' required><br>
+                            <label for=\"vyroba-".$row["carId"]."\">Rok výroby</label><br>
+                            <input type=\"number\" maxlength=\"4\" name=\"year\"  id=\"vyroba-".$row["carId"]."\" value='". $row["year"] ."' required><br>
     
-                            <label for=\"registrationMileage\">Najeté kilometry při registraci</label><br>
-                            <input type=\"number\" name=\"registrationMileage\" value='". $row["registrationMileage"] ."' required><br>
+                            <label for=\"registrationMileage-".$row["carId"]."\">Najeté kilometry při registraci</label><br>
+                            <input type=\"number\" name=\"registrationMileage\" id=\"registrationMileage-".$row["carId"]."\" value='". $row["registrationMileage"] ."' required><br>
                           
                             <input type=\"submit\" id=\"change\" value=\"Změnit\" style=\"background-color: orange;\" onclick='editCar(". $row["carId"] .")'>
                             <input type=\"submit\" id=\"delete\" value=\"Smazat\" style=\"background-color: red;\" onclick='removeCar(". $row["carId"] .")'>  
@@ -206,8 +206,8 @@ function createJSONModelMap($cnn) {
                         <label for="newSpz">SPZ</label><br>
                         <input type="text" name="spz" id="newSpz" required><br>
 
-                        <label for="newMotorizace">Motorizace</label><br>
-                        <input type="text" name="cubics" id="newMotorizace" required><br>
+                        <label for="newMotorizace">Objem motoru v litrech</label><br>
+                        <input type="number" name="cubics" id="newMotorizace" required><br>
 
                         <label for="newPower">Výkon</label><br>
                         <input type="number" name="power" id="newPower" required><br>
@@ -225,7 +225,7 @@ function createJSONModelMap($cnn) {
                         </select><br>
 
                         <label for="registrationMileage">Najeté kilometry při registraci</label><br>
-                        <input type="number" name="registrationMileage" required><br>
+                        <input type="number" name="registrationMileage" id="registrationMileage" required><br>
 
                         <input type="submit" value="Přidat">
 

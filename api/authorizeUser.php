@@ -13,4 +13,9 @@ $stmt->execute();
 $userId = $stmt->get_result()->fetch_assoc()['ID_US'];
 $stmt->close();
 
+if(!isset($userId)) {
+    header('HTTP/1.0 401 Unathorized');
+    die();
+}
+
 ?>

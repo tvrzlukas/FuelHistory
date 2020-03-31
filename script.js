@@ -70,19 +70,6 @@ function insertNew(){
     pridat.style.display = "none";
 }
 
-// smazání řádku
-
-// function deleterow(){
-//     var y = document.getElementById("delete-row");
-//     var smazat = document.getElementById("smazat");
-//     var pridat = document.getElementById("pridat");
-//     var x = document.getElementById("x");
-//     y.style.display = "block";
-//     smazat.style.display = "none";
-//     x.style.display = "block";
-//     pridat.style.display = "none";
-// }
-
 // zavírací button
 function zavrit(){
     var vlozit = document.getElementById("insert-row");
@@ -104,7 +91,7 @@ async function initialLoad() {
     showAjaxLoading();
     const carsListContainer = document.getElementById("carsListContainer");
     const dotsContainer = document.getElementById("dotsContainer");
-    const response = await fetch(`https://kitlab.pef.czu.cz/1920zs/ete89e/03/api/cars.php?sessionId=${sessionId}`);
+    const response = await fetch(`./api/cars.php?sessionId=${sessionId}`);
     cars = await response.json();
 
     for (let i = 0; i < cars.length; i++) {
@@ -170,7 +157,7 @@ function reload() {
  * Fuel History Table
  */
 function loadHistoryTable() {
-    fetch(`https://kitlab.pef.czu.cz/1920zs/ete89e/03/api/fuelHistory.php?carId=${cars[slideIndex-1].carId}`)
+    fetch(`./api/fuelHistory.php?carId=${cars[slideIndex-1]['carId']}&sessionId=${sessionId}`)
         .then((response) => {
             return response.json();
          })
@@ -330,7 +317,7 @@ function deleteRow(fhId) {
     showAjaxLoading();
 
     var request = new XMLHttpRequest();
-    request.open('DELETE', './api/fuelHistory.php', true);
+    request.open('DELETE', `./api/fuelHistory.php?sessionId=${sessionId}`, true);
     request.onload = function() {
         if (this.status >= 200 && this.status < 400) {
             // Success!
@@ -338,6 +325,7 @@ function deleteRow(fhId) {
             reload();
             hideAjaxLoading();
         } else {
+            console.log(this.response);
             // We reached our target server, but it returned an error
             alert("Problém s kontaktováním serveru, zkontrolujte připojení");
             hideAjaxLoading();
@@ -353,7 +341,7 @@ function addRow() {
     console.log(Array.from(data));
 
     var request = new XMLHttpRequest();
-    request.open('PUT', './api/fuelHistory.php', true);
+    request.open('PUT', `./api/fuelHistory.php?sessionId=${sessionId}`, true);
     request.onload = function() {
         if (this.status >= 200 && this.status < 400) {
             // Success!
