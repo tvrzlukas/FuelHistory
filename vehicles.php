@@ -3,10 +3,11 @@ session_start();
 
 require("db.php");
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
 
+//nacteni vyrobcu a jejich modelu z db do pole $manufacturers
 $stmt = $cnn->prepare("SELECT
                         ID_MA as manufacturerId,
                         NAME as manufacturer
@@ -23,26 +24,13 @@ while ($row = $result->fetch_assoc()) {
 }
 $stmt->close();
 
-
-function createManufacturerAndModel($manufacturers) {
-    echo "<label>Značka</label><br>";
-    echo "<select onchange=\"updateManufacturerModels('model', this)\">";
-    echo "<option>-- Značka --</option>";
-    foreach ($manufacturers as $manufacturer){
-        echo "<option value=\"".$manufacturer->id."\">".$manufacturer->name."</option>";
-    }
-    echo "</select><br><label>Model</label><br>";
-
-    echo "<select id='model' name='model'><option>-- Model --</option></select><br>";
-}
-
-
 class IdNameHolder
 {
     var $id;
     var $name;
 }
 
+//HashMapa pro comba - vyrobce a model
 function createJSONModelMap($cnn) {
     $stmt = $cnn->prepare("SELECT
                         ID_MA as manufacturerId,
@@ -169,8 +157,8 @@ function createJSONModelMap($cnn) {
                             <label for=\"spz-".$row["carId"]."\">SPZ</label><br>
                             <input type=\"text\" name=\"spz\" id=\"spz-".$row["carId"]."\" value='". $row["licencePlate"] ."' required><br>
     
-                            <label for=\"motorizace-".$row["carId"]."\" \">Objem motoru v litrech</label><br>
-                            <input type=\"numeric\" name=\"cubics\" id=\"motorizace-".$row["carId"]."\" value='". $row["cubics"] ."' required><br>
+                            <label for=\"motorizace-".$row["carId"]."\">Objem motoru v litrech</label><br>
+                            <input type=\"number\" step='0.1' name=\"cubics\" id=\"motorizace-".$row["carId"]."\" value='". $row["cubics"] ."' required><br>
     
                             <label for=\"power-".$row["carId"]."\">Výkon</label><br>
                             <input type=\"number\" name=\"power\" id=\"power-".$row["carId"]."\" value='". $row["power"] ."' required><br>
@@ -201,13 +189,23 @@ function createJSONModelMap($cnn) {
 
                     <form id="addVehicle" target="dummyframe" method="post" onsubmit="addCar()">
 
-                        <?php echo createManufacturerAndModel($manufacturers, $row["carId"]); ?>
+                        <?php
+                            echo "<label>Značka</label><br>";
+                            echo "<select onchange=\"updateManufacturerModels('model', this)\">";
+                            echo "<option>-- Značka --</option>";
+                            foreach ($manufacturers as $manufacturer){
+                                echo "<option value=\"".$manufacturer->id."\">".$manufacturer->name."</option>";
+                            }
+                            echo "</select><br><label>Model</label><br>";
+
+                            echo "<select id='model' name='model'><option>-- Model --</option></select><br>";
+                        ?>
 
                         <label for="newSpz">SPZ</label><br>
                         <input type="text" name="spz" id="newSpz" required><br>
 
                         <label for="newMotorizace">Objem motoru v litrech</label><br>
-                        <input type="number" name="cubics" id="newMotorizace" required><br>
+                        <input type="number" step='0.1' name="cubics" id="newMotorizace" required><br>
 
                         <label for="newPower">Výkon</label><br>
                         <input type="number" name="power" id="newPower" required><br>

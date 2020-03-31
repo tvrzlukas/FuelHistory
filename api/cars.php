@@ -3,6 +3,9 @@
 
 require('./authorizeUser.php');
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 switch (strtolower($_SERVER['REQUEST_METHOD'])) {
 
@@ -35,9 +38,8 @@ switch (strtolower($_SERVER['REQUEST_METHOD'])) {
         break;
 
     case "delete":
-        //smazat i vsechny zaznamy v historii
         parse_str(file_get_contents("php://input"), $vars);
-        $stmt = $cnn->prepare("DELETE FROM USER_VEHICLES WHERE ID_UV = ? AND IS_US = ?");
+        $stmt = $cnn->prepare("DELETE FROM USER_VEHICLES WHERE ID_UV = ? AND ID_US = ?");
         $stmt->bind_param("ii", $vars['carId'], $userId);
         $exec = $stmt->execute();
         if (false === $exec) {
